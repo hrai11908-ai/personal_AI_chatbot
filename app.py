@@ -19,10 +19,17 @@ st.title("🤖 My Personal AI Assistant")
 st.caption("Your own AI chatbot, built with Python")
 
 # Check Gemini API key
+# Check Gemini API key
 api_key = os.getenv("GEMINI_API_KEY")
 
 if not api_key:
-    st.error("Gemini API key not found. Please check your .env file.")
+    try:
+        api_key = st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        api_key = None
+
+if not api_key:
+    st.error("Gemini API key not found. Please configure Streamlit Secrets.")
     st.stop()
 
 # Connect to Gemini
